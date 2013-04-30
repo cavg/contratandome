@@ -1,0 +1,8 @@
+*.pem
+.sh
+Ivanhoe/src/Ivanhoe/settings.py
+Ivanhoe/docs/readme
+Ivanhoe/asdas23423fsdf.filezilla
+Ivanhoe/backup/*
+*.pyc
+*.log

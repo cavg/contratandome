@@ -1,0 +1,214 @@
+{% extends "_base.htm" %}
+{% block header %}
+		{% include "header_home.htm" %}
+	{% endblock %}	
+{% block content %}
+		<div class="span6 profile">
+			<div class="row">
+				<div class="span4">
+					{% if isFreelancer %}	
+						<h2>{{profile.user.first_name}} {{profile.user.last_name}}</h2>			
+						<p>{{profile.freelancer.bio}}</p>
+						<br>
+						<h4>Contacto</h4>
+						<table class="table">
+					        <tbody>
+					          <tr>
+					            <td>Teléfono</td>
+					            <td>{{profile.freelancer.phone}}</td>
+					          </tr>
+					          <tr>
+					            <td>Dirección</td>
+					            <td>{{profile.freelancer.address}}</td>
+					          </tr>
+					          <tr>
+					            <td>Sitio web</td>
+					            <td><a href="{{profile.freelancer.web_site}}" target="_blank"><p>{{profile.freelancer.web_site}}</p></a></td>
+					          </tr>
+					          <tr>
+					            <td>Residencia</td>
+					            <td>{{profile.freelancer.city}} {% if profile.freelancer.country %}({{profile.freelancer.country}}){% endif %}</td>
+					          </tr>
+					          <tr>
+					            <td>Costo hora hombre</td>
+					            <td>${{profile.freelancer.hh_cost}}</td>
+					          </tr>
+					        </tbody>
+					      </table>
+					      <br>
+							{% if jobs %}
+						    <h4>Proyectos</h4>
+							<table class="table">
+								<thead>
+									<tr>
+										<td><em>Nombre</em></td>
+										<td><em>Desempeño</em></td>
+	<!-- 									<td><b><em>Fuera de plazo</b></em></td> -->
+	<!-- 									<td><b><em>Experiencia</b></em></td> -->
+	 									<td>Estado</td>
+									</tr>
+								</thead>
+								<tbody>
+									{% for j in jobs %}
+										<tr>
+											<td><a href="/job/{{j.code}}" target="_blank"><p>{{j.short_description}}</p></a> </td>
+											<td> 
+												{% if j.score_freelancer != 0.0 %}
+													{{j.score_freelancer}} / 10
+												{% else %}
+													Sin calificación											
+												{% endif %}
+											</td>
+	<!-- 										<td> -->
+	<!-- 											{{j.rate_out_of_date_f}} -->
+	<!-- 										</td> -->
+	<!-- 										<td> -->
+	<!-- 											{{j.experience_days}} -->
+	<!-- 										</td> -->
+											<td>
+												{% if j.state = "1" %}
+													<span class="label label-info">Abierto</span>
+												{% endif %}
+												{% if j.state = "2" %}
+													<span class="label label-warning">En curso</span>
+												{% endif %}
+												{% if j.state = "3" %}
+													<span class="label label-success">Terminado</span>
+												{% endif %}
+												{% if j.state = "5" %}
+													<span class="label label-inverse">Anulado</span>
+												{% endif %}
+												{% if j.state = "4" %}
+													<span class="label label-inverse">Anulado</span>
+												{% endif %}
+												{% if j.state = "6" %}
+													<span class="label label-inverse">Anulado</span>
+												{% endif %}
+											</td>
+										</tr>
+									{% empty %}
+										<b>No hay publicado ofertas de trabajo aún.</b>
+									{% endfor %}
+								</tbody>
+							</table>
+							
+							{% if services %}
+							
+						    <h4><br><br>Servicios ofrecidos</h4>
+							<table class="table">
+								<tbody>
+									{% for j in services %}
+										<tr>
+											<td><a href="/job/{{j.code}}" target="_blank"><p>{{j.short_description}}</p></a> </td>
+										</tr>
+									{% empty %}
+										<b>No existe servicios.</b>
+									{% endfor %}
+								</tbody>
+							</table>
+						{% endif %}
+							
+							
+							{% endif %}
+					{% else %}		
+						<h2>{{profile.employer.name}}</h2>
+						<a href="http://{{profile.employer.web_site}}" target="_blank"><p>{{profile.employer.web_site}}</p></a>
+						<br>				
+						<h4>Representante</h4>
+						<table class="table">
+					        <tbody>
+					          <tr>
+					            <td>Nombre</td>
+					            <td>{{profile.user.first_name}} {{profile.user.last_name}}</td>
+					          </tr>
+					          <tr>
+					            <td>Teléfono</td>
+					            <td>{{profile.employer.phone1}}</td>
+					          </tr>
+					          <tr>
+					            <td>Dirección</td>
+					            <td>{{profile.employer.address}}</td>
+					          </tr>
+					        </tbody>
+					      </table>
+					      <br>
+					      {% if jobs %}
+							<h4>Proyectos</h4>
+							<table class="table">
+								<thead>
+									<tr>
+										<td><em>Nombre</em></td>
+										<td><em>Desempeño</em></td>
+	<!-- 									<td><b><em>Fuera de plazo</b></em></td> -->
+	<!-- 									<td><b><em>Experiencia</b></em></td> -->
+										<td>Estado</td>
+									</tr>
+								</thead>
+								<tbody>
+									{% for j in jobs %}
+										<tr>
+											<td><a href="/job/{{j.code}}" target="_blank"><p>{{j.short_description}}</p></a> </td>
+											<td> 
+												{% if j.score_employer != 0.0 %}
+													{{j.score_employer}} / 10
+												{% else %}
+													Sin calificación
+												{% endif %}
+											</td>											
+	<!-- 										<td> -->
+	<!-- 											{{j.rate_out_of_date_e}} -->
+	<!-- 										</td> -->
+	<!-- 										<td> -->
+	<!-- 											{{j.experience_days}} -->
+	<!-- 										</td> -->
+											<td>
+												{% if j.state = "1" %}
+													<span class="label label-info">Abierto</span>
+												{% endif %}
+												{% if j.state = "2" %}
+													<span class="label label-warning">En curso</span>
+												{% endif %}
+												{% if j.state = "3" %}
+													<span class="label label-success">Terminado</span>
+												{% endif %}
+												{% if j.state = "5" %}
+													<span class="label label-inverse">Anulado</span>
+												{% endif %}
+												{% if j.state = "4" %}
+													<span class="label label-inverse">Anulado</span>
+												{% endif %}
+												{% if j.state = "6" %}
+													<span class="label label-inverse">Anulado</span>
+												{% endif %}
+											</td>
+										</tr>
+									{% empty %}
+										<b>No hay publicado ofertas de trabajo aún.</b>
+									{% endfor %}
+								</tbody>
+								
+							</table>
+						{% endif %}
+					{% endif %}		
+					
+				</div>
+				<div class="span2 right">
+					{% if isFreelancer %}	
+						<img alt="contratandome_logo" src="{{ STATIC_URL }}img/avatar.png"/><br>
+						<a href="mailto:{{user.email}}">{{profile.user.email}}</a><br><br>	
+						<h3>{{profile.experience}} HH</h3><h5 title="Horas de experiencia en proyectos terminados."><em>Experiencia</em><br></h5><br>
+					    <h3>{{profile.confidence_f}}/10</h3><h5 title="Relación entre proyectos anulados y terminados correctamente."><em> Confianza. <br> (% de proyectos terminados)</em></h5><br>
+					    <h3>{{profile.grade_f}}/10</h3> <h5 title="Promedio ponderado de las evaluaciones."><em> Desempeño<br>ponderado</em></h5><br>
+					{% else %}
+						<img alt="contratandome_logo" src="{{ STATIC_URL }}img/avatar2.png"/><br>
+						<a href="mailto:{{profile.user.email}}">{{ profile.user.email}}</a><br><br>	
+						<h3>{{profile.experience}} HH</h3><h5 title="Horas de experiencia en proyectos terminados."><em> Experiencia<br>en proyectos</em></h5><br>
+					    <h3>{{profile.confidence_e}}/10</h3><h5 title="Relación entre proyectos anulados y terminados correctamente."><em> Confianza <br>(% de proyectos terminados)</em></h5><br>
+					    <h3>{{profile.grade_e}}/10</h3> <h5 title="Promedio ponderado de las evaluaciones."><em> Desempeño<br>ponderado</em></h5><br>
+					{% endif %}	
+				</div>
+			</div>
+		</div>
+{% endblock %}
+{% block script %}	
+{% endblock %}

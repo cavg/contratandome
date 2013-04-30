@@ -1,0 +1,45 @@
+{% extends "_base.htm" %}
+	{% block header %}
+		{% include "header_home.htm" %}
+	{% endblock %}	
+{% block content %}
+	<div class="row_fluid">
+		<div class="span3">
+			<b>Compartir</b>
+			<div class="addthis_toolbox addthis_default_style">
+				<a class="addthis_button_preferred_1"></a>
+				<a class="addthis_button_preferred_2"></a>
+				<a class="addthis_button_preferred_3"></a>
+				<a class="addthis_button_preferred_4"></a>
+				<a class="addthis_button_compact"></a>
+				<a class="addthis_counter addthis_bubble_style"></a>
+			</div>
+			<br><br>
+			<a href="/login/" class="btn btn-success">Ver mas ...</a> <a href="/signup_employer/" class="btn btn-info">Publicar un trabajo</a><br><br>
+		</div>
+		<div class="span6">
+			<form id="step" class="form-horizontal" method="post" action="/add_job/">
+			{% csrf_token %}		
+				<h3>{{ job.short_description }}</h3><br>
+				<em><i class="icon-calendar"></i> {{ job.publication }}</em> <br>
+				{% if job.budget %}
+						<em><b>Presupuesto:</b> ${{job.budget}}</em>
+				{% endif %}
+				<p><i class="icon-user"></i> {{user.first_name}} {{ user.last_name }} <a href="mailto:{{user.username}}">{{user.username}}</a></p>		
+				{% for c in categories %}
+					<span class="label label-info">{{ c }}</span>
+				{% endfor %}		
+				<br>
+				<input name="job_id" id="job_id" type="text" style="display:none;" value={{job.id}}>
+				<br>		
+				<p>{{ job.short_description }}</p>		
+				<p>{{ job.extended_description }}</p>	
+				<br><br>
+				</div>
+			</form>
+		</div>
+	</div>
+{% endblock %}
+{% block script %}	
+	<script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4eae20ff46a57ca9"></script>
+{% endblock %}

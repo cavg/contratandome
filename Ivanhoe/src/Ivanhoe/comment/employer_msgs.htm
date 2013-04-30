@@ -1,0 +1,47 @@
+{% extends "_dashboard_employer.htm" %}
+{% block body %}
+	<div class="row-fluid">
+		<div class="span3">
+			<h3>Mensajes</h3>
+			<p>Listado de mensajes asociados a las ofertas de trabajo y sus correspondientes respuestas.<br><br>Si desea hacer otra consulta, vaya directamente al proyecto en la sección <b>"Busca proyectos"</b>.</p><br>
+		</div>
+		<div class="span7">
+		{% for msg in msgs %}					
+			<div class="span7">			
+				<div class="alert alert-info">
+					Nueva consulta en el proyecto: <b><em>{{msg.f_job }}</em></b><span style="text-align:right;float:right;">{{msg.f_datetime }}</span></p>					
+					<p>{{msg.f_text }}</p>		
+					{% if not msg.r_id %}
+						<form method="post" action="/reply_comment_for_job/">
+							{% csrf_token %}
+							<input name="job"  value="{{msg.job_id}}" style="display:none;" />
+							<input name="author" value="{{msg.f_to_user}}" style="display:none;" />
+							<input name="to" value="{{msg.f_author}}" style="display:none;" />
+							<input name="referenced_comment"  value="{{msg.f_id}}" style="display:none;" />
+							<div class="control-group">
+								<textarea name="text" style="width: 100%; height: 50px;" ></textarea>
+								<br>
+								<button type="submit" class="btn btn-mini submit_msg">Responder</button>	
+							</div>
+						</form>	
+					{% else %}
+						<br>
+						<p style="text-align:left;"><b>Tu respuesta fue:</b> <span style="text-align:right;float:right;">{{msg.r_datetime }}</span></p>		
+					 	<p>{{msg.r_text }}</p>						
+					{% endif %}
+				</div>
+			</div>
+		{% empty %} 
+			<h4>No hay mensajes por leer.</h4>
+		{% endfor %} 
+		</div>
+	</div>
+{% endblock %}
+
+{% block script %}
+<script>
+$(document).ready(function(){
+	
+});
+</script>
+{% endblock %}

@@ -1,0 +1,105 @@
+{% extends "_dashboard_employer.htm" %}
+{% block body %}
+	<div class="row-fluid">
+		<form class="form-horizontal" id="form"  method="post" action="/update_employer_account_post/">
+			{% csrf_token %}
+			<div class="span3">
+				<h3>Datos de la Empresa</h3>
+				<a href="{{URL}}/profile/{{user.email}}" target="_blank">Ver perfil público</a>	
+			</div>				
+			<div class="span7">
+				{% if message %}
+					<div class="alert fade in alert-success">
+		            	<button class="close" data-dismiss="alert">×</button>
+		            	{{message}}
+		          	</div>
+		         {% endif %}
+				<input name="employer_id" style="display:none;" type="text" value="{{employer.id}}">
+				<input name="user_id" style="display:none;" type="text" value="{{user.id}}">
+				<div class="control-group">
+						<label class="control-label">Empresa</label>
+						<div class="controls">
+							<input name="company" type="text" class="input-xlarge focused span3" placeholder="Empresa"  value="{{employer.name}}" required autocomplete="off" autofocus>
+						</div>
+				</div>
+				<div class="control-group">
+						<label class="control-label">Dirección</label>
+						<div class="controls">
+							<input name="address" type="text" class="input-xlarge focused span3" placeholder="Dirección"  value="{{employer.address}}" required autocomplete="off">
+						</div>
+				</div>
+				<div class="control-group">
+						<label class="control-label">Sitio Web</label>
+						<div class="controls">
+							<input name="web_site" type="text" class="input-xlarge focused span3" placeholder="http://www.sitioweb.com"  value="{{employer.web_site}}" autocomplete="off">
+						</div>
+				</div>
+				<div class="control-group">
+						<label class="control-label">Teléfono 1</label>
+						<div class="controls">
+							<input name="phone1" type="text" class="input-xlarge focused span3" placeholder=""  value="{{employer.phone1}}" autocomplete="off">
+						</div>
+				</div>
+				<div class="control-group">
+						<label class="control-label">Teléfono 2</label>
+						<div class="controls">
+							<input name="phone2" type="text" class="input-xlarge focused span3" placeholder=""  value="{{employer.phone2}}" autocomplete="off">
+						</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">Pais</label>
+					<div class="controls">
+						<select id="country" name="country" class="span3" >
+							{% for key, value in countries %}
+								<option  value='{{ key }}'>{{ value }}</option>						
+							{% endfor %}
+						</select>
+			    	<span class="help-inline" ></span>
+					</div>
+				</div>
+				<br><br>
+			</div>
+			<div class="span3">
+				<h3>Datos del Representante</h3>
+			</div>
+			<div class="span7">
+					<div class="control-group">
+					<label class="control-label">Nombre</label>
+					<div class="controls">
+						<input name="first_name" type="text" class="input-xlarge focused span3" value="{{user.first_name}}" placeholder="Nombre" required autocomplete="off">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">Apellido</label>
+					<div class="controls">
+						<input name="last_name" type="text" class="input-xlarge span3" placeholder="Apellido"  value="{{user.last_name}}" required autocomplete="off">
+					</div>
+				</div>
+				<div class="control-group" id='email_div'>
+					<label class="control-label">Correo Electrónico</label>
+					<div class="controls">
+						<input name="email" id="email" type="email" class="input-xlarge span3" placeholder="Correo"  value="{{user.email}}" required autocomplete="off" disabled="disabled">
+						<span class="help-inline" id="email_mes"></span>
+					</div>						
+				</div>					
+				<div class="form-actions">
+					<button type="submit" class="btn btn-primary">Actualizar</button>
+				</div>	
+			</div>	
+		</form>
+	</div>
+{% endblock %}
+{% block script %}
+	<script>
+		$(document).ready(function(){	
+			
+			{% if freelancer.country %}
+				$("#country option[value='{{ employer.country }}']").attr('selected', 'selected');
+			{% else %}
+				$("#country option[value='CL']").attr('selected', 'selected');	
+			{% endif %}
+		
+		
+		});
+	</script>
+{% endblock %}

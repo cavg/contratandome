@@ -1,0 +1,45 @@
+{% extends "_dashboard_freelancer.htm" %}
+{% block body %}
+	<div class="row-fluid">	
+		<div class="span3">	
+			{% include "_step_job_postulation.htm" %}
+		</div>	
+		<div class="span7">	
+			<h3>Perfil del proyecto</h3>
+			<br><br>
+			{% include "_job.htm" %}
+			<div class="form-actions">
+				<a class="btn btn-primary" href="/define_evaluation/{{j.code}}">Continuar</a>		
+			</div>	
+		</div>
+	</div>		
+{% endblock %}
+{% block script %}
+<script>
+	function confirmDelete(delUrl) {
+	  if (confirm("¿Seguro que desea eliminar el trabajo?")) {
+	    document.location = delUrl;
+	  }
+	}
+	
+	$(document).ready(function(){
+		
+		$("#step1").addClass("current-step");
+		
+		$(".btn_decision").click(function(){
+			if (confirm("¿Seguro que desea asignar el proyecto?")) {
+				id = $(this).attr('id').split("_")[2];		
+				value = $(this).attr('value');
+				
+				$.get('/set_postulation/',{ postulate_id:id, state:value},
+					function(data){
+						console.info(data);
+						document.location = "/list_my_jobs/";
+					}
+				);   
+			}
+		});
+		
+	});
+</script>
+{% endblock %}

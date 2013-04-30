@@ -1,0 +1,37 @@
+<div class="well" style="margin-right:60px;">
+	<h3 class="center">Filtro de preferencias</h3><br><br>
+	<form class="form-horizontal" method="get" action="/jobs_freelancer_filtered_post/">
+	{% csrf_token %}
+	<h4 style="padding-bottom:10px;">Categoría</h4>
+		<select id="category" name="category" class="span2" >
+			<option value="0">Todas</option>	
+			{% for key,value in categories %}
+				<option  value='{{ key }}'>{{value}}</option>						
+			{% endfor %}
+		</select>
+		<select id="area" name="area" class="span2">	
+		</select>
+	<br><br>
+	<h4 style="padding-bottom:10px;">Presupuesto (Rango)</h4>
+		<div class="input-prepend input-append">
+        	<span class="add-on">$</span><input name="price_ini" type="text" class="input-small" placeholder="" value="{{price_ini}}" autocomplete="off">					        	
+        </div>
+		<div class="input-prepend input-append">
+        	<span class="add-on">$</span><input name="price_end" type="text" class="input-small" placeholder="" value="{{price_end}}" autocomplete="off">
+		</div>
+	<br>
+	<h4>Forma de pago</h4>
+		<input type="radio" name="optionsRadios" id="byfixed" value="byfixedprice" >
+      		 	Por presupuesto (fijo)<br>         		 	
+       			<input type="radio" name="optionsRadios" id="byhour" value="byhour">
+       			Por hora<br>          			 
+       			<input type="radio" name="optionsRadios" id="byboth" value="byhour" checked="">
+       			Ambas  
+       			<input name=type_budget id="type_budget" type="text" style="display:none;" value="2">
+       		<br><br>
+       		<p style="text-align:center;">
+       			<a class="btn" href="/jobs_freelancer/">Limpiar</a> 
+       			<button type="submit" class="btn btn-info">Filtrar</button> 
+       		</p>
+	</form>
+</div>

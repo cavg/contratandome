@@ -1,0 +1,27 @@
+{% extends "_base.htm" %}
+{% block content %}	
+	{% block header %}
+		{% include "_header_home.htm" %}
+	{% endblock %}
+	<div class="span3">
+		<h1>Directorio de expertos</h1><br>
+	</div>
+	<div class="span6">
+		{% for f in freelancers %}
+			<h4> {{ f.first_name }} {{ f.last_name}} </h4>
+			<i class="icon-envelope"></i> {{f.email}}<br>
+			{% if f.bio %}
+				<p>{{f.bio }}</p>
+			{% endif %}	
+			{% if f.categories %}
+				<em>Expertise: </em>
+				{% for c in f.categories %}
+					<span class="label">{{ c }}</span>
+				{% endfor %}
+				<br>
+			{% endif %}	
+			<br>				
+		{% endfor %}
+	</div>
+	
+{% endblock %}

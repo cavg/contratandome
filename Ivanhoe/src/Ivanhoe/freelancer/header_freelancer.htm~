@@ -1,0 +1,30 @@
+ <div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+      <div class="nav-collapse">
+        <ul class="nav">
+        	<li><a class="brand" style="color:white;" href="/dashboard/">Dashboard</a></li>
+        	<li><a href="/update_account/"><i class="icon-user icon-white"></i> Mis datos</a></li>
+        	<li><a href="/jobs_freelancer/"><i class="icon-file icon-white"></i>Busca proyectos</a></li>
+         	<li><a href="/add_service/"><i class="icon-edit icon-white"></i> Mis servicios</a></li>
+<!-- 			<li class="dropdown"> -->
+<!-- 				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-envelope icon-white"></i> Inbox <b class="caret"></b></a> -->
+<!-- 				<ul class="dropdown-menu"> -->
+<!-- 	          		<li><a href="/freelancer_list_msgs/"> Mensajes</a></li> -->
+<!-- 	          		<li><a href="/freelancer_list_postulations/"> Postulaciones</a></li>         		 -->
+<!-- 				</ul> -->
+<!-- 			</li> -->
+			
+        </ul>
+        <ul class="nav pull-right">        	
+        	<li><a href="/logout/"><i class="icon-share icon-white"></i> Salir ({{user.first_name}})</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

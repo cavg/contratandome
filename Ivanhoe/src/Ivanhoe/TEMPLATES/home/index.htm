@@ -1,0 +1,58 @@
+{% extends "_base.htm" %}
+{% block header %}
+	{% include "header_home.htm" %}
+{% endblock %}
+{% block content %}		
+			<div class="row-fluid">
+				<div class="home_left center span6">
+					<h1>¿Por qué <em>ContratandoMe</em>?</h1>
+					<ul class="home">
+						<li><img src="{{ STATIC_URL }}img/check.png"> Asigna tu proyecto al mejor postor.</li>
+						<li><img src="{{ STATIC_URL }}img/check.png"> Fácil y rápida selección de candidatos.</li>
+						<li><img src="{{ STATIC_URL }}img/check.png"> Elige entre profesionales con experiencia.</li>
+						<li><img src="{{ STATIC_URL }}img/check.png"> Accede a expertos de todas partes del mundo.</li>
+						<li><img src="{{ STATIC_URL }}img/check.png"> Es fácil, rápido y gratis.</li>
+					</ul>
+					<a href="/signup_freelancer/" class="btn btn-primary btn-large home_btn">Buscar proyecto</a> 			
+				   	<a href="/signup_employer/" class="btn btn-large home_btn">Publicar proyecto</a> 
+				</div>
+				<div class="home_right center span6">
+					<br><br>
+					<img alt="contratandome_logo" src="{{ STATIC_URL }}img/macbook.jpg">
+				</div>				
+			</div>	
+			<hr><br>
+			<div class="row">
+		        <div class="span4">
+		        <h2>Origen</h2>
+		          <p>Contratandome nace de la necesidad de encontrar expertos know-how en diversas áreas del saber. Cuando se requiere desarrollar un proyecto/trabajo la tarea de conseguir quíen puede responder con dicha labor no es fácil. En contratandoMe si, buscamos crear un directorio de Freelancer que puedan llevar a cabo cualquier trabajo enconmendado en el menor tiempo y a un precio justo. La única condición para publicar en nuestro sitio es que el proyecto sea completamente realizable en línea tanto su dirección como ejecucción.</p>
+		        </div>
+		        <div class="span4">
+		          <h2>ContratandoMe</h2>
+		          <b>Misión</b>
+		          <p>Dar a empresas acceso inmediato a profesionales cualificados con capacidad demostrada para realizar trabajos en línea y por otro lado ser la principal fuente de empleo estable para nuestros Freelancers.</p>
+		          <b>Visión</b>
+		          <p>Ser la mejor empresa para encontrar profesionales altamente calificados para trabajos en línea.</p>
+		       </div>
+		        <div class="span4">
+		          <h2>Proyectos</h2>
+		          <p>¿Qué tipos de proyectos se pueden publicar?<br>
+		          <ul>
+					<li>Computación e Informática</li>
+					<li>Diseño industrial y gráfico </li>
+					<li>Escrituras y literatura</li>
+					<li>Marketing</li>
+					<li>Administración</li>
+					<li>Consultorías Profesionales</li>
+					<li>Asuntos Legales</li>
+					<li>Ingeniería</li>
+					<li>Psicología</li>
+					<li>Traducción</li>
+				  </ul>
+		          </p>
+		       </div>		       
+		    </div>
+		    <br>
+{% endblock %}
+{% block script %}	
+{% endblock %}

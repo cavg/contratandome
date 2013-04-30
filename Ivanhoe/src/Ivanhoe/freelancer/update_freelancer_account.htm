@@ -1,0 +1,108 @@
+{% extends "_dashboard_freelancer.htm" %}
+{% block body %}
+	<div class="row-fluid">
+		<form class="form-horizontal" id="form"  method="post" action="/update_freelancer_account_post/">
+				{% csrf_token %}
+			<div class="span3">
+				<h3>Mi Cuenta</h3>
+				<a href="{{URL}}/profile/{{user.email}}" target="_blank">Ver perfil público</a>	
+			</div>			
+			<div class="span7">	
+				{% if message %}
+					<div class="alert fade in alert-success">
+			            <button class="close" data-dismiss="alert">×</button>
+			        	{{message}}
+			        </div>
+		        {% endif %}
+				<input name="freelancer_id" style="display:none;" type="text" value="{{freelancer.id}}">
+				<input name="user_id" style="display:none;" type="text" value="{{user.id}}">
+				<div class="control-group" id='email_div'>
+					<label class="control-label">Correo Electrónico</label>
+					<div class="controls">
+						<input name="email" id="email" type="email" value="{{user.email}}" class="input-xlarge span3" placeholder="Correo" required autocomplete="off" disabled="disabled">
+						<span class="help-inline" id="email_mes"></span>
+					</div>						
+				</div>
+				<div class="control-group">
+					<label class="control-label">Sitio Web</label>
+					<div class="controls">
+						<input name="web_site" id="web_site" type="text" value="{{freelancer.web_site}}" class="span3" placeholder="http://www.mipagina.cl" autocomplete="off">
+			    		<span class="help-inline" ></span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">Dirección</label>
+					<div class="controls">
+						<input name="address" id="address" type="text" value="{{freelancer.address}}" class="span3" required autocomplete="off">
+			    	<span class="help-inline" ></span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">Teléfono</label>
+					<div class="controls">
+						<input name="phone" id="phone" type="tel"  value="{{freelancer.phone}}" class="span3" autocomplete="off">
+			    		<span class="help-inline" ></span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">Pais</label>
+					<div class="controls">
+						<select id="country" name="country" class="span3" >
+							{% for key, value in countries %}
+								<option  value='{{ key }}'>{{ value }}</option>						
+							{% endfor %}
+						</select>
+			    	<span class="help-inline" ></span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">Ciudad</label>
+					<div class="controls">
+						<input name="city" id="city" type="text"  value="{{freelancer.city}}" class="span3" autocomplete="off" placeholder="">	
+			    	<span class="help-inline" ></span>
+					</div>
+				</div>
+<!--				<div class="control-group">-->
+<!--					<label class="control-label">Avatar</label>-->
+<!--					<div class="controls">-->
+<!--						<input name="avatar" id="avatar"  class="input-file" type="file">-->
+<!--			    	<span class="help-inline" ></span>-->
+<!--					</div>-->
+<!--				</div>-->
+				<div class="control-group">
+					<label class="control-label">Valor de su Hora Hombre ($)</label>
+					<div class="controls">
+						<input name="hh_cost" id=""hh_cost"" type="text"  value="{{freelancer.hh_cost}}" class="span3" autocomplete="off">
+			    		<span class="help-inline" >Ejemplo: 6.000</span>
+					</div>
+				</div>	
+				<div class="control-group">
+					<label class="control-label">Descríbete</label>
+					<div class="controls">
+						<textarea name="bio" placeholder="Profesión, aptitudes, areas de interes" style="width: 395px; height: 88px;" placeholder="Profesión, aptitudes, areas de interes">{{freelancer.bio}}</textarea>
+			    		<span class="help-inline" ></span>
+					</div>
+				</div>						
+				
+				<div class="form-actions">
+					<button type="submit" class="btn btn-primary">Actualizar</button>
+				</div>	
+			</div>	
+		</form>
+	</div>
+	
+	
+	
+{% endblock %}
+
+{% block script %}
+<script>
+$(document).ready(function(){
+	{% if freelancer.country %}
+		$("#country option[value='{{ freelancer.country }}']").attr('selected', 'selected');	
+	{% else %}
+		$("#country option[value='CL']").attr('selected', 'selected');	
+	{% endif %}
+});
+</script>
+{% endblock %}

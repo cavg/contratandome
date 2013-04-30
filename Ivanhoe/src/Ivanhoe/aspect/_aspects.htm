@@ -1,0 +1,30 @@
+<h4>Aspectos Generales</h4>
+<br>
+<em>Los siguientes criterios son obligatorios y serán evaluados al terminar el proyecto.</em>
+<br><br>
+<table class="table">
+	<tbody>
+		{% for a in gaspects %}
+			<tr> 
+				<td><input type="checkbox" class="aspects" value="{{ a.id }}" checked="checked" disabled="disabled"></td>
+				<td>{{ a.name }}</td>
+		        <td><em>{{ a.description }}</em></td>
+		    </tr>
+		{% endfor %}
+	</tbody>
+</table>
+<br><br>
+{% if saspects %}
+	<h4>Aspectos Específicos</h4><br>
+	<table class="table">
+		<tbody>
+			{% for a in saspects %}
+				<tr> 
+					<td><input type="checkbox" class="aspects" value="{{ a.id }}"></td>
+					<td>{{ a.name }}</td>
+			        <td><em>{{ a.description }}</em></td>
+			    </tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endif %}

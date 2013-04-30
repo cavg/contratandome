@@ -1,0 +1,40 @@
+{% extends "_dashboard_freelancer.htm" %}
+{% block body %}
+	<div class="row-fluid">
+		<div class="span3">
+			<h3>Postulaciones</h3>
+			<p>Aquí podrá revisar el estado de sus postulaciones.</p><br>
+		</div>
+		<div class="span7">
+		{% for ps in postulations %}					
+			<div class="span7">			
+				<div class="alert">
+					Proyecto: <b><em>{{ps.job_name }}</em></b> su propuesta fue:<span style="text-align:right;float:right;">{{ps.timestamp }}</span></p>					
+					<em>Estimación en dias:</em>{{ps.date }}<br>
+					<em>Precio ofertado:</em>{{ps.price }}<br><br>
+					<p>{{ps.detail }}</p>	
+					{% if ps.is_accepted == '-1' %}
+						<span class="label label-warning">Sin respuesta aún.</span>
+					{% endif %}		
+					{% if ps.is_accepted == '0' %}	
+						<span class="label label-important">Rechazada</span>
+					{% endif %}		
+					{% if ps.is_accepted == '1' %}	
+						<span class="label label-success">Aceptada</span>
+					{% endif %}		
+				</div>
+			</div>
+		{% empty %} 
+			<h4>No hay postulaciones por leer.</h4>
+		{% endfor %} 
+		</div>
+	</div>
+{% endblock %}
+
+{% block script %}
+<script>
+$(document).ready(function(){
+	
+});
+</script>
+{% endblock %}

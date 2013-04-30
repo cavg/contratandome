@@ -1,0 +1,37 @@
+{% extends "_base.htm" %}
+{% block header %}
+	{% include "header_home.htm" %}
+{% endblock %}
+{% block content %}	
+<div class="row-fluid">
+	<ul class="thumbnails">
+	  <li class="span4">
+	    <div class="thumbnail">
+	      <br><img alt="" src="{{ STATIC_URL }}img/p_review_projects.png">
+	      <div class="caption center">
+	        <h3>Revisa las ofertas vigentes</h3><br>
+	        <p>¿Eres diseñador, desarrollador de Software, traductor?  regístrate y revisa todas las ofertas laborales que tenemos para ti en 8 categorías de empleos.</p>
+	      </div>
+	    </div>
+	  </li>
+	  <li class="span4">
+	    <div class="thumbnail">
+	      <br><img alt="" src="{{ STATIC_URL }}img/p_postulate.png">
+	      <div class="caption center">
+	        <h3>Postula</h3><br>
+	        <p>Haz cuantas postulaciones quieras a los proyectos de tu expertiz. Luego te notificaremos el estado de cada una de tus postulaciones.</p>
+	      </div>
+	    </div>
+	  </li>
+	  <li class="span4">
+	    <div class="thumbnail">
+	      <br><img alt="" src="{{ STATIC_URL }}img/p_work.png">
+	      <div class="caption center">
+	        <h3>Hora de trabajar</h3><br>
+	        <p>Póngase en contacto con su empleador para comenzar a trabajar y definir los avances y fechas..</p>
+	      </div>
+	    </div>
+	  </li>
+	</ul>
+</div>
+{% endblock %}

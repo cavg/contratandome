@@ -1,0 +1,44 @@
+<div class="control-group">
+	<label class="control-label">Nombre del proyecto</label>
+	<div class="controls">
+		<input name="short_description" type="text" class="input-xlarge span5" placeholder="E.g Correción de redacción para documentos técnicos" autocomplete="off" autofocus>
+	</div>
+</div>
+<div class="control-group">
+	<label class="control-label">Descripción</label>
+	<div class="controls">
+		<textarea name="extended_description" type="text" class="input-xlarge" style="width: 460px; height: 251px; " placeholder="Indique requisitos minimos, responsabilidades, condiciones de entrega, plazos..." autocomplete="off"></textarea>
+	</div>
+</div>					
+<div class="control-group">
+	<label class="control-label">Forma de pago</label>
+	<div class="controls">
+		<label class="radio">
+          <input type="radio" name="optionsRadios" id="byfixed" value="byfixed" checked="">
+          Por presupuesto fijo
+        </label>
+		<label class="radio">
+          <input type="radio" name="optionsRadios" id="byhour" value="byhour">
+          Por hora
+        </label>
+        <input name="is_fixed" id="is_fixed" type="text" style="display:none;" value="1">
+		<div class="input-prepend input-append">
+        	<span class="add-on">$</span><input name="budget" type="text" class="input-xlarge focused span1" placeholder="" autocomplete="off">
+		</div>
+	</div>
+</div>
+<div class="control-group">
+	<label class="control-label">¿Autoriza a que su proyecto sea público?</label>
+	<div class="controls">
+		<label class="radio">
+          <input type="radio" name="optionsRadios2" id="isPublic" value="ifPublic" checked="">
+          Si. (Más freelancer podrán postular)
+        </label>
+		<label class="radio">
+          <input type="radio" name="optionsRadios2" id="isNotPublic" value="isNotPublic">
+          No.
+        </label>
+        <input name="is_public" id="is_public" type="text" style="display:none;" value="1">		
+	</div>
+</div>
+<input name="is_canceled" id="is_canceled" type="text" style="display:none;" value="0">	

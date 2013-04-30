@@ -1,0 +1,20 @@
+{% extends "_dashboard_freelancer.htm" %}
+{% block body %}
+	<div class="row-fluid">
+		<div class="span3">	
+			{% include "_step_job_postulation.htm" %}
+		</div>	
+		<div class="span7">
+			<h3>Evaluación al empleador</h3>
+			<br><br>
+			{% include "_rate_aspects.htm" %}
+		</div>	
+	</div>		
+{% endblock %}
+{% block script %}
+	<script>
+		$(document).ready(function(){	
+			$("#step4").addClass("current-step");
+		});
+	</script>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "_dashboard_freelancer.htm" %}
+{% block body %}	
+	<div class="row-fluid">	
+		<div class="span3">
+			<p></p>
+		</div>	
+		<div class="span8">
+			{% include "_job_freelancer_view.htm" %}
+		</div>	
+	</div>	
+	
+{% endblock %}
+
+{% block script %}
+<script>
+	
+	$(document).ready(function()
+	{
+		
+		
+		
+		$(".btn_msg").click(function(){
+			id = "#div_"+$(this).attr("id").split("_")[1];
+			if ($(this).hasClass("active")){
+				$(id).fadeOut("slow");	
+			}else{
+				$(id).fadeIn("slow");	
+			}	
+		});	
+		
+		$(".submit_msg").click(function(){
+ 			id = $(this).attr("id").split("_")[3]; 	
+			$("#form_msg_"+id).submit(function(){ 
+				if(confirm("¿Desea enviar el mensaje?")){
+					$("#submit_msg_btn_"+id).html("enviando...");
+					return true;
+				}else {
+					return false;
+				}
+ 			});
+		});	
+		
+		
+		$(".btn_postulate").click(function(){
+			id = "#div_postulate_"+$(this).attr("id").split("_")[2];
+			if ($(this).hasClass("active")){
+				$(id).fadeOut("slow");	
+			}else{
+				$(id).fadeIn("slow");	
+			}
+			event.preventDefault();
+		});	
+		
+		$(".submit_postulate").click(function(){
+ 			id = $(this).attr("id").split("_")[3]; 	
+			$("#form_postulate_"+id).submit(function(){ 
+				if(confirm("¿Desea enviar la postulación?")){
+					$("#submit_postulate_btn_"+id).html("enviando...");
+					return true;
+				}else {
+					return false;
+				}
+ 			});
+		});	
+		
+ 		
+	});
+</script>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends "_dashboard_freelancer.htm" %}
+{% block body %}
+	<div class="row-fluid">	
+		<div class="span3">	
+			{% include "_step_job_postulation.htm" %}
+		</div>	
+		<div class="span7">	
+			<h3>Contrato y contacto</h3>
+			<br>
+			<h4>Usted ha sido contratado por <em>{{j.offer_name}}</em> escríbale al correo <em><a href="mailto:{{j.offer_email}}">{{j.offer_email}}</a></em> para comenzar a trabajar.</h4><br><br>
+			{% include "_job.htm" %}
+			<div class="form-actions">
+				<a class="btn btn-primary" href="/evaluate/{{j.code}}/{{j.assigned.user.email}}">Continuar</a>
+				<button class="btn btn-danger" style="float:right;" id="anular">Anular</button>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+{% block script %}
+<script>
+	function confirmDelete(delUrl) {
+	  if (confirm("¿Seguro que desea eliminar el trabajo?")) {
+	    document.location = delUrl;
+	  }
+	}
+	
+	$(document).ready(function(){
+		
+		$("#step3").addClass("current-step");
+		
+		$("#anular").click(function(event){
+			if (confirm("Si anula el proyecto esto se reflejara en su indice de confianza y no podra deshacer esta acción, ¿Seguro que desea anular el proyecto?")) {
+				$.get('/anular_job/'+"{{j.code}}",
+						function(data){
+							document.location = "/job/"+"{{j.code}}";
+						}
+				);   
+			}else{
+				console.info("no anulado");
+			}
+			event.preventDefault();
+		});
+		
+		$(".btn_decision").click(function(){
+			if (confirm("¿Seguro que desea asignar el proyecto?")) {
+				id = $(this).attr('id').split("_")[2];		
+				value = $(this).attr('value');
+				
+				$.get('/set_postulation/',{ postulate_id:id, state:value},
+					function(data){
+						console.info(data);
+						document.location = "/dashboard/";
+					}
+				);   
+			}
+		});
+		
+	});
+</script>
+{% endblock %}

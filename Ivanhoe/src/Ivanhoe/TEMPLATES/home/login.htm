@@ -1,0 +1,52 @@
+{% extends "_base.htm" %}
+{% block header %}
+	{% include "header_home.htm" %}
+{% endblock %}
+{% block content %}
+	<div class="row-fluid">
+		{% if message %}
+			<div class="alert alert-success">
+	  			{{message}}
+			</div>
+		{% endif %}
+		<div class="span6">	
+			<div class="home_div">
+				<h3>Ya tengo una cuenta</h3><br>
+				<form class="form-horizontal" method="post" action="/check_login/">
+					{% csrf_token %}	
+						<div class="control-group" id='email_div'>
+							<label class="control-label">Correo Electrónico</label>
+							<div class="controls">
+								<input name="username" id="username" type="email" class="input-xlarge span2" placeholder="Correo" required>
+								<span class="help-inline" id="email_mes"></span>
+							</div>						
+						</div>
+						<div class="control-group">
+							<label class="control-label">Contraseña</label>
+							<div class="controls">
+								<input name="password" id="password" type="password" class="span2" placeholder="Contraseña" required pattern='[a-zA-Z0-9 . _]{5,20}$'>
+					  			<span class="help-inline"></span>
+							</div>
+						</div>
+						<div class="form-actions">
+							<button type="submit" class="btn btn-primary">Entrar</button>
+						</div>				
+				</form>		
+			</div>
+		</div>		
+		<div class="span6">
+			<div class="home_div">
+				<h3>Soy nuevo</h3><br>
+				<div class="new_user">
+					<h4>¿Que quieres hacer en Contratando.me?</h4><br>
+					<div class="control-group">
+						<a href="/signup_employer/" class="btn">Publicar proyecto</a>
+						<a href="/signup_freelancer/" class="btn btn-info">Buscar proyecto</a>						
+					</div>
+				</div>
+			</div>
+		</div>	
+	<br>
+	
+			
+{% endblock %}

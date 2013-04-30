@@ -1,0 +1,42 @@
+{% extends "_base.htm" %}
+{% block header %}
+	{% include "header_home.htm" %}
+{% endblock %}
+{% block content %}
+	<div class="row-fluid">	
+		<div class="span3">
+			<h2><img alt="Task" src="{{ STATIC_URL }}img/task32.png"> Ultimos Trabajos</h2>
+			<br>
+			<a href="/signup_employer/" class="btn btn-info">Publicar un trabajo</a>
+			<br><br>
+			<b>Compartir</b>
+			<div class="addthis_toolbox addthis_default_style">
+				<a class="addthis_button_preferred_1"></a>
+				<a class="addthis_button_preferred_2"></a>
+				<a class="addthis_button_preferred_3"></a>
+				<a class="addthis_button_preferred_4"></a>
+				<a class="addthis_button_compact"></a>
+				<a class="addthis_counter addthis_bubble_style"></a>
+			</div>
+			<br><br>
+		</div>
+		<div class="span7">
+			{% include "_list_jobs_employer.htm" %}
+			<div style="text-align:right;">
+				<b>Para hacer consultas o postular y revisar mas oprtunidades de trabajo favor de registrarse.</b>
+				<br><br>
+				<a href="/login/" class="btn btn-primary">Registrarme</a><br><br>
+			</div>
+		</div>	
+	</div>
+{% endblock %}
+{% block script %}	
+	<script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4eae20ff46a57ca9"></script>
+	<script>
+	$(document).ready(function()
+	{
+		
+	
+	});
+</script>
+{% endblock %}

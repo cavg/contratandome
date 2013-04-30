@@ -1,0 +1,40 @@
+{% extends "_dashboard_freelancer.htm" %}
+{% block body %}
+	<div class="row-fluid">
+		<div class="span3">
+			{% include "_step_job_postulation.htm" %}
+		</div>		
+		<div class="span7">
+			<h3>Pauta de evaluación</h3>
+			<br><br>
+			<input id="job_code" style="display:none;" value="{{job.code}}"/>
+			<input id="user_to_id" type="text" style="display:none;" value="{{job.offer.id}}">
+			<div class="well">
+				{% include "_aspects.htm" %}
+			</div>
+			<div class="form-actions">
+				<a class="btn btn-primary" href="/job_contact/{{job.code}}">Continuar</a>
+			</div>	
+		</div>
+	</div>
+{% endblock %}
+{% block script %}
+	<script>
+		$(document).ready(function(){	
+			
+			$("#step2").addClass("current-step");
+			
+			$(".aspects").change(function(){
+				if ($(this).is(":checked")){
+					state = "1";
+				}else{
+					state = "0";
+				}
+        		$.get('/set_aspect/'+$("#job_code").val()+'/'+$(this).attr('value')+'/'+state+'/'+$('#user_to_id').attr('value'),
+        			function(data){
+        			} 
+        		);  
+    		});	
+		});
+	</script>
+{% endblock %}

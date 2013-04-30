@@ -1,0 +1,85 @@
+{% extends "_dashboard_employer.htm" %}
+{% block body %}	
+	<div class="row-fluid">
+		<div class="span6">
+			{% if message %}
+				<div class="alert fade in alert-success">
+		            <button class="close" data-dismiss="alert">×</button>
+		        	{{message}}
+		        </div>
+	        {% endif %}
+			<h3>¿Qué quieres hacer {{user.first_name}}?</h3><br><br>
+<!-- 			<div class="span2" style="text-align:center;"> -->
+<!-- 			     <a href="/services_employer/" ><img alt="servicios" src="{{ STATIC_URL }}img/describe_service.png"/><br><b>Revisar servicios ofrecidos</b></a><br> -->
+<!-- 			</div> -->
+			<div class="span2" style="text-align:center;">			     
+			     <a href="/add_job/" ><img alt="servicios" src="{{ STATIC_URL }}img/describe_project.png"/><br><b>Publicar un proyecto</b></a><br>
+			</div>
+			<div class="span2" style="text-align:center;">
+			     <a href="/update_account/" ><img alt="servicios" src="{{ STATIC_URL }}img/update_account.png"/><br><b>Actualizar mis datos</b></a><br>
+			</div>	
+		</div>
+		{% if jobs %}		
+			<div class="span6">			
+				<h3>Proyectos</h3><br>
+				<table class="table table_project">
+					<thead>
+						<tr>
+							<td></td>
+							<td></td>
+						</tr>
+					</thead>
+					<tbody>
+						{% for j in jobs %}
+							<tr>
+								<td>
+									<span class="badge badge-info">{{forloop.counter}}</span>
+									<a href="/job/{{j.code}}"> {{j.short_description}}</a>
+								</td>
+								<td>
+									{% if j.state = '-1' %}
+										Desactivado
+									{% endif %}
+									{% if j.state = '1' %}
+										En licitación
+									{% endif %}
+									{% if j.state = '2' %}
+										En curso
+									{% endif %}
+									{% if j.state = '3' %}
+										Terminado
+									{% endif %}
+									{% if j.state = '4' %}
+										Anulado por teletrajador
+									{% endif %}
+									{% if j.state = '5' %}
+										Anulado por empleador
+									{% endif %}
+									{% if j.state = '6' %}
+										Anulado por acuerdo
+									{% endif %}
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>			
+				</table>
+			</div>
+		{% endif %}
+		<div class="span5">
+			<form   method="post" action="/post_feedback/">
+				{% csrf_token %}
+				<div class="control-group">
+					<div class="controls">
+						<h4>¿Tienes alguna sugerencia?</h4><br>
+						<textarea name="comment" style="width: 450px; height:100px;" placeholder="Escríbenos ahora!" required></textarea>
+						<input name="email" style="display:none;" value="{{email}}"/>
+					</div>
+				</div>			
+				<input name="rol" style="display:none;" value="employer">
+				<div class="form-actions">		  			
+		  			<button type="submit" class="finish btn btn-primary">Enviar</button>
+				</div>	
+			</form>	
+		</div>
+	</div>
+{% endblock %}

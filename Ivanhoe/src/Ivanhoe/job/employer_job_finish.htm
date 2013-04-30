@@ -1,0 +1,42 @@
+{% extends "_dashboard_employer.htm" %}
+{% block body %}
+	<div class="row-fluid">	
+		<div class="span3">
+			{% include "_step_job_publication.htm" %}
+		</div>		
+		<div class="span7">	
+			<h3>Proyecto terminado</h3>
+			<br><br>
+			{% include "_job.htm" %}		
+		</div>
+	</div>
+{% endblock %}
+{% block script %}
+<script>
+	function confirmDelete(delUrl) {
+	  if (confirm("¿Seguro que desea eliminar el trabajo?")) {
+	    document.location = delUrl;
+	  }
+	}
+	
+	$(document).ready(function(){
+		
+		$("#step7").addClass("current-step");
+		
+		$(".btn_decision").click(function(){
+			if (confirm("¿Seguro que desea asignar el proyecto?")) {
+				id = $(this).attr('id').split("_")[2];		
+				value = $(this).attr('value');
+				
+				$.get('/set_postulation/',{ postulate_id:id, state:value},
+					function(data){
+						console.info(data);
+						document.location = "/dashboard/";
+					}
+				);   
+			}
+		});
+		
+	});
+</script>
+{% endblock %}

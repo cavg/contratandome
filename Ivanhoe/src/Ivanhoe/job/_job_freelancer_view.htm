@@ -1,0 +1,125 @@
+	<div class="span7">	
+		<a href="/job/{{job.code}}" target="_blank"><h3>{{ job.short_description }}</h3></a>
+		<em><i class="icon-calendar"></i> {{ job.publication }}</em> <br>
+		<i class="icon-user"></i> <a href="{{URL}}/profile/{{job.offer_email}}" target="_blank">{{job.offer_name}}</a>				
+	</div>			
+	<div class="span2" style="float:right;">
+		{% if job.fixed_price %}
+			<em><b>Presupuesto:</b><br> ${{job.budget}}</em>
+		{% else %}
+			<em><b>Pago por hora:</b><br> ${{job.budget}}</em>
+		{% endif %}	
+		{% if job.classification %}
+			<br>
+		{% endif %}
+		{% for c in job.classification %}
+			<span class="label label-info">{{ c }}</span>
+		{% endfor %}
+	</div>	
+	<div class="span9">
+		<br>
+		<b>{{ job.short_description }}</b>
+		<p>{{ job.extended_description }}</p>
+		{% if allow_comments %}			
+			<div style="text-align:right;">	
+				<a id="btn_{{job.id}}" class="btn dropdown-toggle btn-mini btn_msg" data-toggle="button"> Escribir consulta <span class="caret"></span></a>		
+				<a id="btn_postulate_{{job.id}}" class="btn dropdown-toggle btn-success btn-mini btn_postulate" data-toggle="button">Postular <span class="caret"></a>
+			</div>	
+			<div id="div_{{job.id}}" style="display:none;">	
+					<br>	
+					<form method="post" id="form_msg_{{job.id}}" action="/write_comment_for_job/">
+						{% csrf_token %}
+						<input name="job"  value="{{job.id}}" style="display:none;" />
+						<input name="author" value="{{user.id}}" style="display:none;" />
+						<input name="to" value="{{job.offer_id}}" style="display:none;" />
+						<div class="control-group" style="text-align:right;">
+							<textarea name="text" style="width: 100%; height: 50px;" placeholder="¿tienes alguna duda?"></textarea>
+							<br>
+							<button type="submit" id="submit_msg_btn_{{job.id}}" class="btn btn-mini submit_msg">Enviar</button>	
+						</div>
+					</form>
+			</div>
+			<div id="div_postulate_{{job.id}}" style="display:none;">	
+					<br>
+					<form method="post" id="form_postulate_{{job.id}}" action="/postulate_to_job/">
+						{% csrf_token %}	
+						<b>Ingrese su oferta</b><br><br>
+						<input name="job_id"  	value="{{job.id}}" 			style="display:none;" />
+						<input name="offer_id" 	value="{{user.id}}" 		style="display:none;" />
+						<input name="to_id" 	value="{{job.offer_id}}" 	style="display:none;" />
+						<div class="input-prepend input-append">
+				        	<span class="add-on">$</span><input name="price" type="text" class="focused span1" placeholder="100.000" autocomplete="off" style="margin-right:30px">
+				        	<input name="time" type="text" class="input-mini" placeholder="20" autocomplete="off"><span class="add-on"> dias</span>
+				        </div>
+						<div class="control-group" style="text-align:right;">
+							<textarea name="text" style="width: 100%; height: 50px;" placeholder="¿Por qué debe elegirlo a usted? ingrese su oferta"></textarea>
+							<br>
+							<button type="submit" id="submit_postulate_btn_{{job.id}}" class="btn btn-mini btn-success submit_postulate">Postular</button>	
+						</div>
+					</form>
+			</div>
+		{% endif %}
+		{% if job.postulations %}		
+		<br><b>Postulaciones:</b>	
+		<div class="accordion">		
+			<br>	           
+			{% for ps in job.postulations %}
+				 <div class="accordion-group">
+		              <div class="accordion-heading">
+		                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ps.id}}">
+		                 	{% if ps.is_accepted == '1' %}	
+								<i class="icon-ok"></i> 
+							{% endif %}	
+							{% if ps.is_accepted == '0' %}	
+								<i class="icon-remove"></i>
+							{% endif %}	
+							{% if ps.is_accepted == '-1' %}	
+								<i class="icon-eye-open"></i> 
+							{% endif %}	
+							<i class="icon-user"></i> {{ ps.user.first_name }} {{ ps.user.last_name }}
+		                 	<span style="text-align:right;float:right;">{{ps.timestamp }}</span>							                 	
+						</a>
+		              </div>
+		              {% if ps.is_accepted == '1' %}	
+						<div id="collapse{{ps.id}}" class="accordion-body collapse" style="height: auto; ">
+					  {% else %}
+					  	<div id="collapse{{ps.id}}" class="accordion-body collapse" style="height: 0px; ">
+					  {% endif %}	
+              				<div class="accordion-inner">
+              					<div class="row">
+									<div class="span4">	
+										<a href="{{URL}}/profile/{{ps.user.email}}" target="_blank">Ver perfil</a><br>																		
+										<em>Estimación: </em>{{ps.date }} dias<br>
+										<em>Oferta:</em> ${{ps.price}}<br><br>
+										<p>{{ps.detail }}</p>														
+									</div>
+									<div class="span2 right">
+										{% if ps.is_accepted == '0' %}	
+											<span class="label label-important">Rechazada</span>
+										{% endif %}		
+										{% if ps.is_accepted == '1' %}	
+											<span class="label label-success">Aceptada</span>
+										{% endif %}		
+									</div>
+								</div>
+							</div>
+					  </div>
+	          	</div>	
+			{% endfor %}
+		</div>	
+		{% endif %}	
+		{% if job.comments %}		
+			<br><b>Preguntas:</b><br><br>
+			{% for msg in job.comments %}				
+				<a href="{{URL}}/profile/{{msg.f_author.email}}" target="_blank">{{msg.f_author.first_name}} {{msg.f_author.last_name}}</a><em> pregunto:</em><br> 
+				<p>{{msg.f_text }}</p>		
+				{% if not msg.r_id %}
+					<p>Sin respuesta aún</p>
+				{% else %}
+					<p style="text-align:left;"><em>Respondio:</em> </p>		
+				 	<p>{{msg.r_text }}</p>						
+				{% endif %}
+			{% endfor %} 
+		{% endif %}	
+		<br><br><br><br>
+	</div>

@@ -1,0 +1,102 @@
+{% extends "_dashboard_freelancer.htm" %}
+{% block body %}
+	<div class="row-fluid">
+		<form class="form-horizontal" method="post" action="/add_service_post/">
+			{% csrf_token %}
+			<div class="span3">
+				<h3>¿Que ofreces?</h3>
+				<p>Cada persona cuenta con con ciertas habilidades de las cuales puede sacar provecho. 
+			En esta sección le pedimos que las describa como si fuera un servicio, de tal forma que 
+			potenciales contratantes lo puedan contactar.</p>
+<!-- 			<a href="/services/" target="_blank">Ver ejemplos</a> -->
+			</div>			
+			<div class="span7">	
+				<input name="user_id" style="display:none;" type="text" value="{{user_id}}">
+				<input name="job_id" style="display:none;" type="text" value="{{job_id}}">
+				<div class="control-group">
+					<label class="control-label">Experto en:</label>
+					<div class="controls">
+						<input name="name" type="text" class="input-xlarge span3" placeholder="Ej: Diseño CSS y tarjetas de presentación" required autocomplete="off">
+						<span class="help-inline"></span>
+					</div>						
+				</div>	
+				<div class="control-group">
+					<label class="control-label">Categorías</label>
+					<div class="controls">
+						<select id="category" name="category" class="span3" >
+							<option>--- seleccionar ---</option>	
+							{% for key,value in categories %}
+								<option  value='{{ key }}'>{{value}}</option>						
+							{% endfor %}
+						</select>
+						<select id="area" name="area"  required class="span3">				
+						</select>
+			    	<span class="help-inline" ></span>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">Describa sus habilidades</label>
+					<div class="controls">
+						<textarea name="extended_description" required style="width: 395px; height: 88px;" placeholder="Ej: Diseño animaciónes e imagenes coorporativas para empresas y pequeños negocios, trabajo con Adobe Photoshop y poseo una amplia experiencia."></textarea>
+			    		<span class="help-inline"></span>
+					</div>
+				</div>		
+				<div class="form-actions">
+					<button type="submit" class="btn btn-primary">Publicar</button>
+				</div>	
+			</div>	
+			{% if jobs %}
+			<div class="span3">
+				<h3>Servicios ofrecidos</h3><br>
+			</div>
+			<div class="span7">
+				{% for j in jobs %}
+					<div class="well">
+						<a href="javascript:confirmDelete('/delete_job/{{j.code}}/0')" class="close">x</a>
+						<h3>{{ j.short_description }}</h3>							
+						{% for c in j.classification %}
+							<span class="label label-info">{{ c }}</span>
+						{% endfor %}
+						<p><br>{{ j.extended_description }}</p>	
+					</div>
+				{% endfor %}
+			</div>
+			{% endif %}
+		</form>	
+		
+	</div>	
+	
+{% endblock %}
+
+{% block script %}
+<script>
+
+	function confirmDelete(delUrl) {
+		if (confirm("¿Seguro que desea eliminarlo?")) {
+	    	document.location = delUrl;
+	  	}
+	}
+	
+	$(document).ready(function(){	
+		
+		$('#category').change(function(event){	
+			$.get('/categories/'+$('#category').val(), 
+				function(data) {
+				 	$("#area").empty();
+		            cats = data.split(",");
+		            for(c in cats)
+		            {
+		            	var append_data = "<option class=\"c_s\" value=\""+cats[c]+"\">"+cats[c]+"</option>";
+		            	$("#area").append(append_data);
+		            } 
+				}
+			);
+			event.preventDefault();
+		});
+		
+	});
+
+</script>
+
+{% endblock %}

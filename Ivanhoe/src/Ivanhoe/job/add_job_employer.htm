@@ -1,0 +1,83 @@
+{% extends "_dashboard_employer.htm" %}
+{% block body %}
+	<div class="row-fluid">
+		<form class="form-horizontal" method="post" id="add_jo_form" action="/add_job/">
+			{% csrf_token %}
+			<div class="span3">
+				{% include "_step_job_publication.htm" %}
+			</div>
+			<div class="span7">
+				<h3>Proyecto nuevo</h3>
+				<br><br>
+				{% include "_add_job.htm" %}			
+			</div>
+			<input id="categories" name="categories" style="display:none" value=""/>
+			<div class="span3"> 
+				<p></p>
+			</div>	
+			<div class="span7">
+				<h3>Clasificación</h3>
+				<br><br>
+				{% include "_jobs_categories.htm" %}
+			</div>		
+			<div class="span3">
+				<p></p>
+			</div>	
+			<div class="span7">
+		  		<div class="form-actions">		  			
+		    		<button type="button" class="finish btn btn-primary" onClick="colectCategories();">Continuar</button>
+				</div>	
+			 </div>							
+		</form>
+	</div>
+{% endblock %}
+{% block script %}
+	<script>
+	$(document).ready(function()
+	{
+		
+		$("#step1").addClass("current-step");
+		
+		$("#byfixed").click(function(){
+			$('#is_fixed').val("1");
+		})
+		$("#byhour").click(function(){
+			$('#is_fixed').val("0");
+		})	
+		$("#isPublic").click(function(){
+			$('#is_public').val("1");
+		})
+		$("#isNotPublic").click(function(){
+			$('#is_public').val("0");
+		})	
+	
+		function get_categories(indice,calls){
+			$.get('/categories/'+indice, 
+					function(data) {
+						$div_id ="#c"+calls;
+			            $($div_id).empty();
+			            cats = data.split(",");
+			            for(c in cats)
+			            {
+			            	var append_data = "<label class=\"checkbox\"><input type=\"checkbox\" id=\""+cats[c]+"\" class=\"c_s\" value=\""+cats[c]+"\">"+cats[c]+"</label>";
+			            	$($div_id).append(append_data);
+			            }
+					}
+				);
+		}
+		
+		var calls = 1;
+		{% for key,value in categories %}
+			get_categories('{{ key }}',calls);	
+			calls = calls+1; 
+		{% endfor %}
+	});
+
+	function colectCategories(){
+		$(".c_s:checked:enabled").each(function(key,value){
+			$("#categories").attr("value",$("#categories").attr("value")+value.id+",");
+		});
+		$("#add_jo_form").submit();
+	}
+	</script>
+{% endblock %}

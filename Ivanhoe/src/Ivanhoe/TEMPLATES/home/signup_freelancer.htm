@@ -1,0 +1,110 @@
+{% extends "_base.htm" %}
+{% block header %}
+	{% include "header_home.htm" %}
+{% endblock %}
+{% block content %}	
+	<div class="row-fluid">		
+		<div class="span2 center">
+			<h2>Bienvenido Freelancer</h2><br>
+		</div>
+		<div class="span8">
+			<form class="form-horizontal" method="post" action="/signup_freelancer_post/">
+				{% csrf_token %}
+				<fieldset>
+					<div class="control-group">
+						<div class="controls">
+							<h3>Datos de contacto</h3>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label">Nombre</label>
+						<div class="controls">
+							<input name="first_name" type="text" class="input-xlarge focused span3" placeholder="Nombre" required autocomplete="off" autofocus>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label">Apellido</label>
+						<div class="controls">
+							<input name="last_name" type="text" class="input-xlarge span3" placeholder="Apellido" required autocomplete="off">
+						</div>
+					</div>
+					<div class="control-group" id='email_div'>
+						<label class="control-label">Correo Electrónico</label>
+						<div class="controls">
+							<input name="email" id="email" type="email" class="input-xlarge span3" placeholder="Correo" required autocomplete="off">
+							<span class="help-inline" id="email_mes"></span>
+						</div>						
+					</div>
+					<div class="control-group">
+						<label class="control-label">Contraseña</label>
+						<div class="controls">
+							<input name="password" id="password" type="password" class="span3" placeholder="Contraseña" required pattern='[a-zA-Z0-9 . _]{5,20}$' autocomplete="off">
+				  			<span class="help-inline">Elija una contraseña segura.</span>
+						</div>
+					</div>
+					<div class="control-group" id='pass_div'>
+						<label class="control-label">Contraseña (de nuevo)</label>
+						<div class="controls">
+							<input name="repassword" id="repassword" type="password" class="span3" placeholder="Repita la contraseña" pattern='[a-zA-Z0-9 . _]{5,20}$' required autocomplete="off">
+				    	<span class="help-inline" id="pass_mes"></span>
+						</div>
+					</div>
+					<div class="form-actions">
+						<em>Al registrarse usted declara estar al tanto y de acuerdo con nuestra 
+							<a href="{{ STATIC_URL }}docs/politicas_de_privacidad.pdf" target="_blank">Políticas de Privacidad</a> y 
+							<a href="{{ STATIC_URL }}docs/acuerdo_de_usuario.pdf" target="_blank">Términos de Uso</a></em><br><br>
+						<button type="submit" class="btn btn-primary">Registrarme ahora</button>
+					</div>
+				  
+				  </fieldset>
+			</form>
+		</div>
+<!-- 		<div class="span3">				 -->
+<!-- 			<p>¿Cansado de su trabajo? ¿Quiere tener ingresos extras? ¿No esta conforme con su sueldo?. Inscríbase y recibirá ofertas de trabajo y proyectos en -->
+<!-- 						 los que podrás participar.</p> -->
+<!-- 		</div> -->
+	</div>
+{% endblock %}
+{% block script %}
+	<script>
+		$(document).ready(function()
+		{
+			/*
+			 * Passwords validation
+			 */
+			$('#repassword').keyup(function(event){
+				if($('#repassword').val()!=$('#password').val()){
+					$('#pass_div').addClass('control-group error')
+					$('#pass_mes').text('La contraseñas no coinciden.');
+				}else{
+					$('#pass_div').removeClass('error')
+					$('#pass_mes').text('');
+				}
+				event.preventDefault();
+			});
+			
+			/*
+			 * Unique email check
+			 */
+			
+			$('#email').focusout(function(event){
+				$.get('../check_user/'+$('#email').val(), 
+					function(data) {
+						if (data=="1"){
+							$('#email_div').addClass('control-group error')
+							$('#email_mes').text('Ya existe este correo asociado a un usuario.');
+						}else{
+							$('#email_div').removeClass('error')
+							$('#email_mes').text('');
+						}
+					});
+					
+				event.preventDefault();
+			});	
+		
+		});
+	</script>
+{% endblock %}
+
+
+	

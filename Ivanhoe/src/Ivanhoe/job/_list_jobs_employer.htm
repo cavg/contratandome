@@ -1,0 +1,12 @@
+	<div class="row-fluid" style="margin-left: 300px; margin-top:20px;">
+		<h3>Proyectos disponibles</h3>
+	</div>
+	{% for job in jobs %}	
+		<div class="row-fluid" style="margin-left: 300px; margin-top:10px;">
+			{% include "_job_freelancer_view.htm" %}
+		</div>
+	{% empty %}
+		<div class="row-fluid" style="margin-left: 340px;margin-top:30px; margin-bottom:400px;">
+			<h3>No hay proyectos para el filtro aplicado</h3>
+		</div>
+	{% endfor %}

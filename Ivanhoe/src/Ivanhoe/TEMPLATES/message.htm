@@ -1,0 +1,12 @@
+{% extends "_base.htm" %}
+{% block header %}
+		{% include "header_home.htm" %}
+	{% endblock %}
+{% block content %}
+	<div class="">
+		<div class="alert alert-info" >				
+			<span>{{ message }}</span>
+		</div>
+		<a href="{{ href }}" class="btn btn-primary">Volver</a>
+	</div>	
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "_dashboard_employer.htm" %}
+{% block body %}
+	<div class="row-fluid">
+		<div class="span3">
+			{% include "_step_job_publication.htm" %}
+		</div>
+		<div class="span7">
+			<h3>Evaluación de servicios</h3>
+			<br><br>
+			<input id="job_code" style="display:none;" value="{{job.code}}"/>
+			<input id="user_to_id" type="text" style="display:none;" value="{{job.assigned.user.id}}">
+			<div class="well">
+				{% include "_aspects.htm" %}
+			</div>
+			<div class="form-actions">		  			
+	    		<a class="btn btn-primary" href="/job_contact/{{job.code}}">Continuar</a>
+			</div>	
+		</div>
+<!-- 			<div class="span3"> -->
+<!-- 				<h3>Hora de definir la evaluación de desempeño</h3> -->
+<!-- 				<p>La evaluación es importante ya que constituye el principal -->
+<!-- 				 indicador del nivel de cumplimiento en los proyectos que  -->
+<!-- 				 usted participe, tanto como contratante como teletrabajador. -->
+<!-- 				 </p><br> -->
+<!-- 				 <p>Elija los aspectos que desea evaluar del trabajo que realizará <a href="/profile/{{job.assigned.user.email}}" target="_blank">{{job.assigned.user.first_name}}</a>.</p> -->
+<!-- 				<p>Dicha evaluación se llevará acabo una ves finalizado el trabajo.</p> -->
+<!-- 			</div>	 -->
+<!-- 			<div class="span3"> -->
+<!-- 				<h3>Proyecto</h3><br>						 -->
+<!-- 				<div class="well"> -->
+<!-- 					<a href="/job/{{job.code}}" target="_blank"><h4>{{ job.name }}</h4></a> -->
+<!-- 					<p>{{job.extended_description}}</p>				 -->
+<!-- 					<input name="job_code" id="job_code" type="text" style="display:none;" value="{{job.code}}"> -->
+<!-- 					<input id="user_to_id" type="text" style="display:none;" value="{{job.assigned.user.id}}"> -->
+<!-- 				</div>		 -->
+<!-- 				<h3>Asignado a</h3><br> -->
+<!-- 				<div class="well"> -->
+<!-- 					<a href="/profile/{{job.assigned.user.email}}" target="_blank">{{job.assigned.user.first_name}} {{job.assigned.user.last_name}}</a> -->
+<!-- 					<p>{{job.assigned.user.email}}</p> -->
+<!-- 				</div>	 -->
+<!-- 			</div> -->
+	</div>
+{% endblock %}
+{% block script %}
+	<script>
+		$(document).ready(function(){	
+			
+			$("#step4").addClass("current-step");
+			
+			$("#datepicker").datepicker({
+				currentText: "Now",
+				dateFormat: "yy-mm-dd",
+				minDate: +1,
+			} );
+			
+			$(".aspects").change(function(){
+				if ($(this).is(":checked")){
+					state = "1";
+				}else{
+					state = "0";
+				}
+        		$.get('/set_aspect/'+$("#job_code").val()+'/'+$(this).attr('value')+'/'+state+'/'+$('#user_to_id').attr('value'),
+        			function(data){
+        			} 
+        		);  
+    		});	
+		});
+	</script>
+{% endblock %}

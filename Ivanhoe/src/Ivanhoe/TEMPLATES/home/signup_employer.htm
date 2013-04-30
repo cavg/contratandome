@@ -1,0 +1,131 @@
+{% extends "_base.htm" %}
+{% block header %}
+	{% include "header_home.htm" %}
+{% endblock %}	
+{% block content %}
+	<form class="form-horizontal" method="post" id="signup_employer_form" action="/signup_employer/">
+		{% csrf_token %}
+		<div class="row-fluid">					
+			<div class="span2 center">
+				<h2>Bienvenido Empleador</h2>
+			</div>
+			<div class="span8">
+				<div class="control-group">
+					<div class="controls">
+						<h3>Datos de contacto</h3>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">Nombre y apellido</label>
+					<div class="controls">
+						<input name="name" type="text" class="input-xlarge focused span3" placeholder="Nombre y apellido" required autocomplete="off">
+						<span class="help-inline"></span>
+					</div>
+				</div>
+				<div class="control-group" id='email_div'>
+					<label class="control-label">Correo Electrónico</label>
+					<div class="controls">
+						<input name="email" id="email" type="email" class="input-xlarge span3" placeholder="Correo" required autocomplete="off">
+						<span class="help-inline" id="email_mes">*</span>
+					</div>						
+				</div>
+				<br><br>
+			</div>
+			<div class="span2 center">
+				<p></p>
+			</div>
+			<div class="span8">
+				<div class="control-group">
+					<div class="controls">
+						<h3>Descripción del proyecto</h3>
+					</div>
+				</div>
+				{% include "_add_job.htm" %}
+				
+				<div class="control-group">
+					<label class="control-label">¿Como clasificaría el proyecto?</label>
+					<div class="controls">
+						<a id='categories_btn' ><button class="btn btn-warning">Clasificar</button></a>
+						<span class="help-inline" ></span>
+					</div>
+				</div>
+				<div class="form-actions">
+					<em>Al registrarse usted declara estar al tanto y de acuerdo con nuestra 
+							<a href="{{ STATIC_URL }}docs/politicas_de_privacidad.pdf" target="_blank">Políticas de Privacidad</a> y 
+							<a href="{{ STATIC_URL }}docs/acuerdo_de_usuario.pdf" target="_blank">Términos de Uso</a></em><br><br>
+					<button type="button" class="btn btn-large btn-primary" onClick="colectCategories();">Publicar ahora</button>
+				</div>	
+			</div>	
+	
+			<div class="modal hide fade" id="category_set">
+				<div class="modal-header">
+				 	<a class="close" data-dismiss="modal">×</a>
+				 	<h3>Categorias</h3>
+				 	<p>Seleccion las categorías propias del proyecto.</p>
+				</div>
+				<div class="modal-body">
+					<div class="container-fluid">
+						{% include "_jobs_categories.htm" %}
+					</div>
+				</div>
+				<div class="modal-footer">
+			    	<a href="#" class="btn btn-primary" data-dismiss="modal">Aceptar</a>
+				</div>
+			</div>
+			<input id="categories" name="categories" style="display:none" value=""/>
+		</div>
+	</form>
+{% endblock %}
+{% block script %}
+<script>
+$(document).ready(function()
+{
+	$("#byfixed").click(function(){
+		$('#is_fixed').val("1");
+	})
+	$("#byhour").click(function(){
+		$('#is_fixed').val("0");
+	})	
+	
+	
+	$('#categories_btn').click(function(event){
+		$('#category_set').modal({
+			keyboard:false,
+			show: true
+		});
+		event.preventDefault();
+	});
+		
+	function get_categories(indice,calls){
+		$.get('/categories/'+indice, 
+				function(data) {
+					console.info(data);
+					$div_id ="#c"+calls;
+					console.info($div_id);
+		            $($div_id).empty();
+		            cats = data.split(",");
+		            for(c in cats)
+		            {
+		            	var append_data = "<label class=\"checkbox\"><input type=\"checkbox\" id=\""+cats[c]+"\" class=\"c_s\" value=\""+cats[c]+"\">"+cats[c]+"</label>";
+		            	$($div_id).append(append_data);
+		            }
+				}
+			);
+	}
+	
+	var calls = 1;
+	{% for key,value in categories %}
+		get_categories('{{ key }}',calls);	
+		calls = calls+1; 
+	{% endfor %}
+	
+});
+
+	function colectCategories(){
+		$(".c_s:checked:enabled").each(function(key,value){
+			$("#categories").attr("value",$("#categories").attr("value")+value.id+",");
+		});
+		$("#signup_employer_form").submit();
+	}
+</script>
+{% endblock %}

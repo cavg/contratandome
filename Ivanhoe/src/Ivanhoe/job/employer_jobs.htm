@@ -1,0 +1,47 @@
+{% extends "_dashboard_employer.htm" %}
+{% block body %}
+	<div class="row-fluid">	
+		<div class="span3">
+			<h3>Mis ofertas laborales</h3>
+		</div>			
+		<div class="span7">	
+			{% for j in jobs %}	
+				{% include "_job.htm" %}
+			{% empty %}
+				<p>Usted no ha publicado aun ningún trabajo</p><br>
+				<a href="/add_job/"><button class="btn btn-success" >Publicar ahora</button></i></a>
+			{% endfor %}	
+		</div>	
+{% endblock %}
+{% block script %}
+<script>
+	function confirmDelete(delUrl) {
+	  if (confirm("¿Seguro que desea eliminar el trabajo?")) {
+	    document.location = delUrl;
+	  }
+	}
+	
+	$(document).ready(function(){
+		
+		$(".btn_decision").click(function(){
+			if (confirm("¿Seguro que desea asignar el proyecto?")) {
+				id = $(this).attr('id').split("_")[2];		
+				value = $(this).attr('value');
+				code = $(this).attr('id').split("_")[3];	
+				
+				$.get('/set_postulation/',{ postulate_id:id, state:value},
+					function(data){
+						if(data=="1"){
+							document.location = "/define_evaluation/"+code;
+						}else{
+							document.location = "/job/"+code;
+						}
+						
+					}
+				);   
+			}
+		});
+		
+	});
+</script>
+{% endblock %}

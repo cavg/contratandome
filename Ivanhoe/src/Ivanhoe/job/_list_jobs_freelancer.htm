@@ -1,0 +1,22 @@
+{% for j in jobs %}	
+	<div class="row-fluid">		
+		<div class="span10">			
+			<a href="/job/{{j.code}}" target="_blank"><h3>{{ j.short_description }}</h3></a>
+			<em><i class="icon-calendar"></i> {{ j.publication }}</em>	
+			<br><i class="icon-user"></i> <a href="{{URL}}/profile/{{j.offer_email}}" target="_blank">{{j.offer_name}}</a>	
+			<br>
+			<p>{{ j.extended_description }}</p>	
+			<br><br>
+		</div>			
+		<div class="span2 right">	
+			{% for c in j.classification %}
+				<span class="label label-info">{{ c }}</span>
+			{% endfor %}	
+		</div>	
+	
+	</div>
+{% empty %}
+    <h4>No hay servicios disponibles</h4>
+{% endfor %}
+
+<br><br>

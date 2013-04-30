@@ -1,0 +1,203 @@
+<div class="well">
+	{% if not j.assigned and j.type == "0" %}
+		<a href="javascript:confirmDelete('/delete_job/{{j.code}}/1')" target="_blank"  class="close">x</a>
+	{% endif %}
+	<input name="job_id" id="job_id" type="text" style="display:none;" value={{j.id}}>					
+	<a href="/job/{{j.code}}" target="_blank"><h3> {{ j.short_description }}</h3></a>
+	<p> {{ j.short_description }}</p>
+	<em>Publicado {{ j.publication }}</em>
+	{% if j.budget_ini != None %}
+		<p><span class="label">$ {{j.budget_ini}} - ${{j.budget_end}}</span>
+	{% endif %}
+	<br><br>					
+	<p>{{ j.extended_description }}</p>	
+	{% if j.postulations %}	
+		{% if j.postulations|length_is:"1" %}
+			<br><b>Postulación aceptada</b>
+		{% else %}
+			<br><b>Postulaciones</b>
+		{% endif %}	
+		<div class="accordion">		
+			<br>	           
+			{% for ps in j.postulations %}
+				 <div class="accordion-group">
+		              <div class="accordion-heading">
+		                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ps.id}}">
+		                 	{% if ps.is_accepted == '1' %}	
+								<i class="icon-ok"></i> 
+							{% endif %}	
+							{% if ps.is_accepted == '0' %}	
+								<i class="icon-remove"></i>
+							{% endif %}	
+							{% if ps.is_accepted == '-1' %}	
+								<i class="icon-eye-open"></i> 
+							{% endif %}	
+							<i class="icon-user"></i> {{ ps.user.first_name }} {{ ps.user.last_name }}
+		                 	<span style="text-align:right;float:right;">{{ps.timestamp }}</span>							                 	
+						</a>
+		              </div>
+		              {% if ps.is_accepted == '1' %}	
+						<div id="collapse{{ps.id}}" class="accordion-body collapse" style="height: auto; ">
+					  {% else %}
+					  	<div id="collapse{{ps.id}}" class="accordion-body collapse" style="height: 0px; ">
+					  {% endif %}	
+              				<div class="accordion-inner">
+              					<div class="row">
+								<div class="span4">	
+									<a href="{{URL}}/profile/{{ps.user.email}}" target="_blank">Ver perfil</a><br>																		
+									<em>Estimación: </em>{{ps.date }} dias<br>
+									<em>Oferta:</em> ${{ps.price}}<br><br>
+									<p>{{ps.detail }}</p>														
+								</div>
+								<div class="span2 right">
+									
+									{% if ps.is_accepted == '-1' %}
+										{% if not j.assigned %}
+											<div style="text-align:right;">	
+												<a id="btn_accept_{{ps.id}}_{{j.code}}" value="0" class="btn btn-danger btn-mini btn_decision">Rechazar</a>
+												<a id="btn_refuse_{{ps.id}}_{{j.code}}" value="1" class="btn btn-success btn-mini btn_decision">Aceptar</a>		
+											</div>
+										{% endif %}
+									{% endif %}		
+									{% if ps.is_accepted == '0' %}	
+										<span class="label label-important">Rechazada</span>
+									{% endif %}		
+									{% if ps.is_accepted == '1' %}	
+										<span class="label label-success">Aceptada</span>
+									{% endif %}		
+								</div>
+							</div>
+						</div>
+					  </div>
+	          	</div>	
+			{% endfor %}
+		</div>
+	{% else %}
+		<br> 
+		{% if show_link_invite %}
+			<a href="/invite_freelancers/{{j.code}}" class="finish btn btn-mini btn-primary">Invitar candidatos</a>
+		{% endif %}	
+	{% endif %}	
+	
+	{% if j.rates_freelancer or j.rates_employer %}		
+		<br><b>Coevaluación</b><br><br>	
+	{% endif %}
+	
+	{% if j.rates_employer %}		
+		<div class="accordion">		
+				<div class="accordion-group">
+	              	<div class="accordion-heading">
+	                	<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#{{job_id}}0collapse">
+	                 		 <i class="icon-list-alt"></i> Pauta para evaluar a {{j.offer_name}}              	
+						</a>
+	              	</div>
+	              	{% if j.state == '3' %}	
+						<div id="{{job_id}}0collapse" class="accordion-body collapse" style="height: auto; ">
+					{% else %}
+					  	<div id="{{job_id}}0collapse" class="accordion-body collapse" style="height: 0px; ">
+					{% endif %}		              	
+           				<div class="accordion-inner">
+           					<div class="row">
+								<div class="span6">	
+									<table class="table">
+										<thead>
+											<tr> 
+												<td><b>Aspecto</b></td>
+												<td><b>Descripción</b></td>
+												<td><b>Evaluación</b></td>
+											</tr>
+										</thead>
+										<tbody>
+											{% for r in j.rates_employer %}
+												<tr> 
+													<td>{{ r.aspect.name }}</td>
+											        <td><em>{{ r.aspect.description }}</em></td>	
+											        {% if r.score == 0 %}											        	
+											        	<td style="text-align:center;width:40px;">-</td>
+											        {% else %}
+											        	<td style="text-align:center;width:40px;"><img alt="star" src="{{ STATIC_URL }}img/star{{r.score}}.png"/></td>	
+											        {% endif %}	 									        
+											    </tr>
+											{% endfor %}
+										</tbody>
+									</table>
+									<br>
+								</div>
+							</div>
+						</div>
+					</div>
+			  </div>
+	    </div>	
+	{% endif %}	
+	{% if j.rates_freelancer %}			
+		<div class="accordion">	
+				<div class="accordion-group">
+	              	<div class="accordion-heading">
+	                	<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#{{job_id}}1collapse">
+	                 		  <i class="icon-list-alt"></i> Pauta para evaluar a {{j.assigned.user.first_name}}                     	
+						</a>
+	              	</div>
+	              	{% if j.state == '3' %}	
+						<div id="{{job_id}}1collapse" class="accordion-body collapse" style="height: auto; ">
+					{% else %}
+					  	<div id="{{job_id}}1collapse" class="accordion-body collapse" style="height: 0px; ">
+					{% endif %}		    
+           				<div class="accordion-inner">
+           					<div class="row">
+           						<div class="span6">	
+									<table class="table">
+										<thead>
+											<tr> 
+												<td><b>Aspecto</b></td>
+												<td><b>Descripción</b></td>
+												<td><b>Evaluación</b></td>
+											</tr>
+										</thead>
+										<tbody>
+											{% for r in j.rates_freelancer %}
+												<tr> 
+													<td>{{ r.aspect.name }}</td>
+											        <td><em>{{ r.aspect.description }}</em></td>	
+											        {% if r.score == 0 %}											        	
+											        	<td style="text-align:center;width:40px;">-</td>	
+											        {% else %}
+											        	<td style="text-align:center;width:40px;"><img alt="star" src="{{ STATIC_URL }}img/star{{r.score}}.png"/></td>	
+											        {% endif %}	 							        
+											    </tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+			  </div>
+	    </div>
+	{% endif %}	
+	
+	{% if j.comments %}		
+		<br><b>Preguntas</b><br><br>
+		{% for msg in j.comments %}				
+			<a href="{{URL}}/profile/{{msg.f_author.email}}" target="_blank">{{msg.f_author.first_name}} {{msg.f_author.last_name}}</a><em> pregunto:</em><br> 
+			<p>{{msg.f_text }}</p>		
+			{% if not msg.r_id %}
+				<form method="post" action="/reply_comment_for_job/">
+					{% csrf_token %}
+					<input name="job"  value="{{msg.job_id}}" style="display:none;" />
+					<input name="author" value="{{msg.f_to_user}}" style="display:none;" />
+					<input name="to" value="{{msg.f_author}}" style="display:none;" />
+					<input name="referenced_comment"  value="{{msg.f_id}}" style="display:none;" />
+					<div class="control-group">
+						<textarea name="text" style="width: 100%; height: 50px;" ></textarea>
+						<br>
+						<button type="submit" class="btn btn-mini submit_msg">Responder</button>	
+					</div>
+				</form>	
+			{% else %}
+				<p style="text-align:left;"><em>Respondiste:</em> </p>		
+			 	<p>{{msg.r_text }}</p>						
+			{% endif %}
+		{% endfor %} 
+	{% endif %}	
+				
+</div>

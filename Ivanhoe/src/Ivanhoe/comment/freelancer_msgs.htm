@@ -1,0 +1,37 @@
+{% extends "_dashboard_freelancer.htm" %}
+{% block body %}
+	<div class="row-fluid">
+		<div class="span3">
+			<h3>Mensajes</h3>
+			<p>Listado de mensajes asociados a las ofertas de trabajo y sus correspondientes respuestas.<br><br>Si desea hacer otra consulta, vaya directamente al proyecto en la sección <b>"Busca proyectos"</b>.</p><br>
+		</div>
+		<div class="span7">
+		{% for msg in msgs %}					
+			<div class="span7">			
+				<div class="alert alert-info">
+					En el proyecto: <b><em>{{msg.f_job }}</em></b> escribiste<span style="text-align:right;float:right;">{{msg.f_datetime }}</span></p>					
+					<p>{{msg.f_text }}</p>					
+        			<input name="msg_id" id="msg_id" type="text" style="display:none;" value="{{f_msg.id}}">
+					<input name="msg_to" id="msg_to" type="text" style="display:none;" value="{{f_msg.to}}">
+					<input name="msg_job" id="msg_job" type="text" style="display:none;" value="{{f_msg.job}}">
+					{% if msg.r_id %}
+						<br>
+						<p style="text-align:left;"><b>Respuesta:</b> <span style="text-align:right;float:right;">{{msg.r_datetime }}</span></p>		
+					 	<p>{{msg.r_text }}</p>					
+					{% endif %}
+				</div>
+			</div>
+		{% empty %} 
+			<h4>No hay mensajes por leer.</h4>
+		{% endfor %} 
+		</div>
+	</div>
+{% endblock %}
+
+{% block script %}
+<script>
+$(document).ready(function(){
+	
+});
+</script>
+{% endblock %}

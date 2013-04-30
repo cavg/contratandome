@@ -1,0 +1,20 @@
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Teletrabajador</th>
+      <th>Experiencia</th>
+      <th>Desempeño</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>		
+	{% for f in freelancers %}
+	    <tr>
+	      <td><a href="/profile/{{f.user.email}}" target="_blank">{{f.user.first_name}} {{f.user.last_name}}</a></td>
+	      <td>{{f.experience}} HH</td>
+	      <td>{{f.grade_f}} %</td>
+	      <td><button class="btn btn-mini btn-primary invitate_btn" value="{{f.user.email}}_{{job.code}}">Invitar</button></td>		      
+	    </tr>
+    {% endfor %}
+   </tbody>
+</table>

@@ -1,0 +1,143 @@
+{% extends "_dashboard_freelancer.htm" %}
+{% block body %}	
+<div class="row-fluid">	
+	<div style="position:fixed;width:300px;">
+		<br>
+		{% include "_filter.htm" %}
+	</div>			
+	<div class="span7">			
+		{% include "_list_jobs_employer.htm" %}
+	</div>
+</div>	
+{% endblock %}
+
+{% block script %}
+<script>
+	function confirmDelete(delUrl) {
+	  if (confirm("¿Seguro que desea eliminarlo?")) {
+	    document.location = delUrl;
+	  }
+	}
+	
+	$(document).ready(function()
+	{
+		
+		{% if category %}
+			$.get('/categories/{{category}}', 
+					function(data) {
+					 	$("#area").empty();
+			            cats = data.split(",");
+			            for(c in cats)
+			            {
+			            	var append_data = "<option class=\"c_s\" value=\""+cats[c]+"\">"+cats[c]+"</option>";
+			            	$("#area").append(append_data);
+			            } 
+			            $('#category option:selected', 'select').removeAttr('selected');
+						$('#category').find("option[value='{{category}}']").attr('selected','');
+			            
+			            {% if classification %}
+							//$('#area option:selected', 'select').removeAttr('selected');
+							$('#area').find("option[value='{{classification}}']").attr('selected','');
+						{% endif %}
+					}
+			);
+						
+		{% endif %}
+				
+		
+		
+		{% if type_budget %}
+			$('#type_budget').attr("value","{{type_budget}}");
+			if ($('#type_budget').val()=="0"){				
+				$("#byhour").removeAttr("checked");
+				$("#byboth").removeAttr("checked");
+				$("#byhour").attr("checked","");			
+			}
+			if ($('#type_budget').val()=="1"){				
+				$("#byfixed").removeAttr("checked");
+				$("#byboth").removeAttr("checked");				
+				$("#byfixed").attr("checked","");	
+			}
+			if ($('#type_budget').val()=="2"){			
+				$("#byfixed").removeAttr("checked");
+				$("#byhour").removeAttr("checked");				
+				$("#byboth").attr("checked","");
+			}			
+		{% endif %}
+		
+		
+		$("#byfixed").click(function(){
+			$('#type_budget').val("1");
+		})
+		$("#byhour").click(function(){
+			$('#type_budget').val("0");
+		})	
+		$("#byboth").click(function(){
+			$('#type_budget').val("2");
+		})	
+		
+		
+		$('#category').change(function(event){	
+			$.get('/categories/'+$('#category').val(), 
+					function(data) {
+					 	$("#area").empty();
+			            cats = data.split(",");
+			            for(c in cats)
+			            {
+			            	var append_data = "<option class=\"c_s\" value=\""+cats[c]+"\">"+cats[c]+"</option>";
+			            	$("#area").append(append_data);
+			            } 
+					}
+			);
+			event.preventDefault();
+		});
+		
+		
+		$(".btn_msg").click(function(){
+			id = "#div_"+$(this).attr("id").split("_")[1];
+			if ($(this).hasClass("active")){
+				$(id).fadeOut("slow");	
+			}else{
+				$(id).fadeIn("slow");	
+			}	
+		});	
+		
+		$(".submit_msg").click(function(){
+ 			id = $(this).attr("id").split("_")[3]; 	
+			$("#form_msg_"+id).submit(function(){ 
+				if(confirm("¿Desea enviar el mensaje?")){
+					$("#submit_msg_btn_"+id).html("enviando...");
+					return true;
+				}else {
+					return false;
+				}
+ 			});
+		});	
+		
+		
+		$(".btn_postulate").click(function(){
+			id = "#div_postulate_"+$(this).attr("id").split("_")[2];
+			if ($(this).hasClass("active")){
+				$(id).fadeOut("slow");	
+			}else{
+				$(id).fadeIn("slow");	
+			}
+			event.preventDefault();
+		});	
+		
+		$(".submit_postulate").click(function(){
+ 			id = $(this).attr("id").split("_")[3]; 	
+			$("#form_postulate_"+id).submit(function(){ 
+				if(confirm("¿Desea enviar la postulación?")){
+					$("#submit_postulate_btn_"+id).html("enviando...");
+					return true;
+				}else {
+					return false;
+				}
+ 			});
+		});	
+		
+ 		
+	});
+</script>
+{% endblock %}

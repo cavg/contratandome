@@ -1,0 +1,78 @@
+{% extends "_base.htm" %}
+{% block header %}
+	{% include "header_home.htm" %}
+{% endblock %}
+{% block content %}	
+	<div class="row-fluid">
+		<div class="span2 about" style="padding-left:30px;">			
+            <h3><a href="#" class="access" id="sobre">Acerca</a></h3><br>
+            <h3><a href="#" class="access" id="fundador">Fundador</a></h3><br>
+            <h3><a href="#" class="access" id="contacto">Contacto</a></h3>          	
+		</div>
+		<div class="span8 about">
+			<div id="sobreD" class="">
+				<h2>Acerca</h2><br>
+				Contratandome nace de la necesidad de encontrar un lugar donde conseguir trabajo a distancia, de forma rápida y fácil 
+				desde la comodidad del hogar.Para eso hemos puesto a disposición una herramienta gratuita que por una parte a las pequeñas 
+				y medianas empresas da la posibilidad de acceder mediante el uso de la tecnología a una base de datos de expertos de diversas 
+				áreas y habilidades facilitando el proceso de selección de trabajadores mediante un sencillo proceso publicación, y por otra 
+				parte ayuda a los teletrabajadores a encontrar proyectos  propios de su interés.
+				<br><br>
+				En contratandome podrás encontrar ofertas de trabajo clasificadas bajo las siguientes categorías:
+				<br><br>
+				<ul>
+					<li>Computación e Informática</li>
+					<li>Diseño industrial y gráfico </li>
+					<li>Escrituras y literatura</li>
+					<li>Marketing</li>
+					<li>Administración</li>
+					<li>Consultorías Profesionales</li>
+					<li>Asuntos Legales</li>
+					<li>Ingeniería</li>
+					<li>Psicología</li>
+					<li>Traducción</li>
+				</ul>
+				<br>
+				<h2>Misión</h2>
+				Ser un puente entre la oferta y demanda de profesionales a distancia.
+				<br><br>
+				<h2>Visión</h2>
+				Ser la plataforma líder del teletrabajo para países de habla hispana.
+				<br><br>
+			</div>				
+			<div id="fundadorD"  class="sectionhide">
+				<h2>Fundador</h2>
+				<br>
+				Hola soy el fundador y desarrollador del sitio, me llamo Camilo Verdugo y me defino en como un constructor de Software y apasionado por los proyectos de emprendimiento y las 
+				tecnologías emergentes.<br>Busco la mejora continua a partir del comportamiento de ustedes los usuarios y no de mis 
+				caprichos como geek.
+				<br><br>
+			</div>	
+			<div id="contactoD"  class="sectionhide">
+				<h2>Contacto</h2>
+				<br>
+				Si deseas contactarnos puedes escribirnos a nuestro correo contacto@contratando.me o directamente en alguna de 
+				nuestras cuentas en las redes sociales.
+			</div>
+		</div>	
+	</div>
+{% endblock %}
+{% block script %}
+<script>
+	$(document).ready(function(){
+	
+		$(".access").click(function(event){
+			div_id = '#'+$(this).attr('id')+'D';
+			$('.access').each(function(index) {
+				div_id2 = '#'+$(this).attr('id')+'D';
+				$(div_id2).addClass("sectionhide");
+			});
+			$(div_id).removeClass("sectionhide");
+			
+			event.preventDefault();
+		});
+		
+		
+    });
+</script>
+{% endblock %}

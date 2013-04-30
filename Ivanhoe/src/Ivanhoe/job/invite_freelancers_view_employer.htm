@@ -1,0 +1,48 @@
+{% extends "_dashboard_employer.htm" %}
+{% block body %}
+	<div class="row-fluid">
+		<div class="span3">
+			{% include "_step_job_publication.htm" %}
+		</div>	
+		<div class="span7">
+			<h3>Invitación de candidatos</h3>
+			<br><br>
+			<p>A continuación se muestra una lista de candidatos en las siguientes clasificaciones: (
+				{% for jc in jcs %}
+					<em>{{jc.classification.name}},</em>
+				{% endfor %}
+			)</p>
+			<br>
+			{% include "_invite_freelancers.htm" %}
+		</div>	
+		<div class="span3">
+			<p></p>
+		</div>	
+		<div class="span7">		
+			<div class="form-actions">		  			
+	  			<a href="/job/{{job.code}}" class="finish btn btn-primary">Continuar</a>
+			</div>
+		</div>	
+	</div>
+{% endblock %}
+{% block script %}
+	<script>
+	$(document).ready(function()
+	{	
+		
+		$("#step2").addClass("current-step");
+		
+		$(".invitate_btn").click(function(){
+			email 	= $(this).val().split("_")[0];			
+			code 	= $(this).val().split("_")[1];
+			btn		= $(this);
+			$.get('/send_invitation/'+email+'/'+code,
+       			function(data){
+					btn.replaceWith("<a class=\"btn btn-success btn-mini disabled\">enviado</a>");
+       			} 
+       		);
+		});
+			
+	});
+	</script>
+{% endblock %}

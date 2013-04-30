@@ -1,0 +1,77 @@
+{% extends "_dashboard_employer.htm" %}
+{% block body %}
+	<div class="row-fluid">	
+		<div class="span3">	
+			<ul class="wizard">
+				<li>
+					<h1>1. Definición</h1>
+					<span>Describa y clasifique el proyecto.</span>
+				</li>
+				<li>
+					<h1>2. Invitación</h1>
+					<span>Invite a los teletrabajadores mejor evaluados.</span>
+				</li>
+				<li>
+					<h1>3. Propuestas</h1>
+					<span>Revise las propuestas y asigne el proyecto al mejor postor.</span>
+				</li>
+				<li>
+					<h1>4. Pauta de evaluación</h1>
+					<span>Elija como evaluará el desempeño.</span>
+				</li>
+				<li>
+					<h1>5. Manos a la obra</h1>
+					<span>Pongase en contacto.</span>
+				</li>
+				<li>
+					<h1>6. Evaluación</h1>
+					<span>Califique a su contraparte.</span>
+				</li>
+				<li>
+					<h1>7. Cierre</h1>
+					<span> El proyecto ha terminado, felicitaciones!.</span>
+				</li>
+				<li class="current-step">
+					<h1>8. Finalizado</h1>
+					<span> Proyecto terminado.</span>
+				</li>
+			</ul>
+		</div>	
+		<div class="span7">
+			{% include "_job.htm" %}
+		</div>
+{% endblock %}
+{% block script %}
+<script>
+	function confirmDelete(delUrl) {
+	  if (confirm("¿Seguro que desea eliminar el trabajo?")) {
+	    document.location = delUrl;
+	  }
+	}
+	
+	$(document).ready(function(){
+		
+		$(".btn_decision").click(function(){
+			if (confirm("¿Seguro que desea asignar el proyecto?")) {
+				id 		= $(this).attr('id').split("_")[2];	
+				code 	= $(this).attr('id').split("_")[3];	
+				value 	= $(this).attr('value');
+				console.info(code);
+				
+				$.get('/set_postulation/',{ postulate_id:id, state:value},
+					function(data){
+						console.info(data);
+						if (data=="1"){
+							document.location = "/define_evaluation/"+code;
+						}else{
+							document.location = "/job_postulations/"+code;
+						}
+						
+					}
+				);   
+			}
+		});
+		
+	});
+</script>
+{% endblock %}
